@@ -1,7 +1,8 @@
-K8S_VERSION=1.7.1
-GO_VERSION=1.8.3
-IMAGE_VERSION=0
-DOCKER_IMAGE=quay.io/ericchiang/kubeadm:v$(K8S_VERSION)_$(IMAGE_VERSION)
+K8S_VERSION ?= 1.7.1
+K8S_REPO ?= kubernetes/kubernetes
+GO_VERSION ?= 1.8.3
+IMAGE_VERSION ?= 0
+DOCKER_IMAGE ?= quay.io/ericchiang/kubeadm:v$(K8S_VERSION)_$(IMAGE_VERSION)
 
 _output/bin/kubeadm _output/bin/kubectl: _build/kubernetes
 	mkdir -p _output/bin
@@ -22,7 +23,7 @@ docker-image: _output/bin/kubeadm _output/bin/kubectl
 
 _build/kubernetes:
 	mkdir -p _build
-	cd _build && wget https://github.com/kubernetes/kubernetes/archive/v$(K8S_VERSION).zip
+	cd _build && wget https://github.com/$(K8S_REPO)/archive/v$(K8S_VERSION).zip
 	cd _build && unzip v$(K8S_VERSION).zip
 	mv _build/kubernetes-$(K8S_VERSION) _build/kubernetes
 
