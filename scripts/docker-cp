@@ -1,0 +1,14 @@
+#!/bin/bash -e
+#
+#   Usage: ./docker-cp [cidfile] [src] [dest]
+#
+# This file exists because "$(shell cat cid)" in a Makefile evaluates as soon
+# as the Makefile is evaluated, so the following target won't work:
+#
+#   _build/bar:
+#       docker run --cidfile=cid golang:latest go install foo/bar
+#       docker cp $(shell cat cid):/go/bin/bar _build/bar
+#
+# Because the shell command will be evaluated before "docker run" is run.
+
+docker cp $(cat $1):$2 $3
